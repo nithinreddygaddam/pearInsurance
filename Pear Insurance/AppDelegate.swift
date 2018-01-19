@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import GoogleMaps
+import GooglePlaces
+import HockeySDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        // Setup Hockey App
+        BITHockeyManager.shared().configure(withIdentifier: "e13faf7f16394c49a82df7fc9d11eca9")
+        // Do some additional configuration if needed here
+        BITHockeyManager.shared().start()
+        BITHockeyManager.shared().authenticator.authenticateInstallation()
+
+
+        GMSServices.provideAPIKey("AIzaSyBQB4OQXxrIaNvclpUxTtFpF3d74GVMIwk")
+        GMSPlacesClient.provideAPIKey("AIzaSyBQB4OQXxrIaNvclpUxTtFpF3d74GVMIwk")
         return true
     }
 
