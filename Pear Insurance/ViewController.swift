@@ -11,13 +11,16 @@ import GoogleMaps
 import GooglePlaces
 import SwiftyJSON
 import Alamofire
+import MapboxDirections
+import MapboxCoreNavigation
+import MapboxNavigation
 
 enum Location {
     case startLocation
     case destinationLocation
 }
 
-class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDelegate {
+class ViewController: UIViewController, GMSMapViewDelegate {
 
     @IBOutlet weak var rideButton: UIButton!
     @IBOutlet weak var rideView: UIView!
@@ -101,11 +104,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
         self.locationManager.startUpdatingLocation()
         self.locationManager.distanceFilter = 50
         placesClient = GMSPlacesClient.shared()
+
+//        mapView.isIndoorEnabled = false
+        mapView.isTrafficEnabled = true
+        mapView.isMyLocationEnabled = true
         runTimer()
     }
 
     @objc fileprivate func stopUpdatingLocation() {
-        locationManager.stopUpdatingLocation()
+//        locationManager.stopUpdatingLocation()
         if likelyPlaces.count > 0 {
             self.currentAddress = likelyPlaces[0]
             guard let addressArray = self.currentAddress?.formattedAddress?.components(separatedBy: ",") else {
@@ -117,50 +124,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
                 self.currentAddressText.text = self.currentAddress?.formattedAddress
             }
         }
+
     }
 
     func runTimer() {
         timer = Timer.scheduledTimer(timeInterval: 2, target: self,   selector: (#selector(ViewController.stopUpdatingLocation)), userInfo: nil, repeats: false)
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let currentLocation:CLLocationCoordinate2D = manager.location!.coordinate
-        print("locations = \(currentLocation.latitude) \(currentLocation.longitude)")
-        let camera = GMSCameraPosition.camera(withLatitude: currentLocation.latitude, longitude: currentLocation.longitude, zoom: 15)
-
-        self.mapView.camera = camera
-        self.mapView.delegate = self
-        self.mapView.animate(to: camera)
-        self.mapView?.isMyLocationEnabled = true
-        self.mapView.settings.compassButton = true
-        self.mapView.settings.zoomGestures = true
-        self.mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-        listLikelyPlaces()
-    }
-
-    // Handle authorization for the location manager.
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .restricted:
-            print("Location access was restricted.")
-        case .denied:
-            print("User denied access to location.")
-            // Display the map using the default location.
-            mapView?.isHidden = false
-        case .notDetermined:
-            print("Location status not determined.")
-        case .authorizedAlways: fallthrough
-        case .authorizedWhenInUse:
-            print("Location status is OK.")
-            startUpdatingLocation()
-        }
-    }
-
-    // Handle location manager errors.
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        locationManager.stopUpdatingLocation()
-        print("Error: \(error)")
     }
 
     // Populate the array with the list of likely places.
@@ -186,13 +154,31 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
     }
 
     @IBAction func onInsureButtonPressed(_ sender: Any) {
-        self.destinationAddressText.text = ""
-        destinationAdress = nil
+
+        guard let locationA = currentAddress, let locationB = destinationAdress else {
+            return
+        }
+
         self.estimatesView.isHidden = true
         self.rideView.isHidden = true
         self.rideStatsLabel.isHidden = false
         self.rideSummaryView.isHidden = false
         calculateRideCost()
+
+        let origin = Waypoint(coordinate: CLLocationCoordinate2D(latitude: locationA.coordinate.latitude, longitude: locationA.coordinate.longitude), name: locationA.name)
+        let destination = Waypoint(coordinate: CLLocationCoordinate2D(latitude: locationB.coordinate.latitude, longitude: locationB.coordinate.longitude), name: locationB.name)
+
+        let options = NavigationRouteOptions(waypoints: [origin, destination])
+
+        Directions.shared.calculate(options) { (waypoints, routes, error) in
+            guard let route = routes?.first else { return }
+
+            let viewController = NavigationViewController(for: route)
+            self.present(viewController, animated: true, completion: nil)
+        }
+
+        self.destinationAddressText.text = ""
+        destinationAdress = nil
     }
 
     @IBAction func onDoneRideButtonPressed(_ sender: Any) {
@@ -322,6 +308,57 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
                 polyline.map = self.mapView
             }
         }
+    }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let currentLocation:CLLocationCoordinate2D = manager.location!.coordinate
+        print("locations = \(currentLocation.latitude) \(currentLocation.longitude)")
+        let camera = GMSCameraPosition.camera(withLatitude: currentLocation.latitude, longitude: currentLocation.longitude, zoom: 15)
+
+        self.mapView.camera = camera
+        self.mapView.delegate = self
+        self.mapView.animate(to: camera)
+        self.mapView?.isMyLocationEnabled = true
+        self.mapView.settings.compassButton = true
+        self.mapView.settings.zoomGestures = true
+        self.mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        listLikelyPlaces()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+
+        guard let myLocation = mapView.myLocation else {
+            return
+        }
+        mapView.animate(toBearing: myLocation.course)
+    }
+
+    // Handle authorization for the location manager.
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .restricted:
+            print("Location access was restricted.")
+        case .denied:
+            print("User denied access to location.")
+            // Display the map using the default location.
+            mapView?.isHidden = false
+        case .notDetermined:
+            print("Location status not determined.")
+        case .authorizedAlways: fallthrough
+        case .authorizedWhenInUse:
+            print("Location status is OK.")
+            startUpdatingLocation()
+        }
+    }
+
+    // Handle location manager errors.
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        locationManager.stopUpdatingLocation()
+        print("Error: \(error)")
     }
 }
 

@@ -393,6 +393,33 @@
             </objects>
             <point key="canvasLocation" x="866.39999999999998" y="173.16341829085459"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="u8J-Cs-tdv">
+            <objects>
+                <viewController id="Bsy-YB-OeF" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Kct-gD-zmu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GJP-bt-r0o" customClass="MBNavigationMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="GJP-bt-r0o" firstAttribute="top" secondItem="Kct-gD-zmu" secondAttribute="top" id="Hzx-Ho-cpK"/>
+                            <constraint firstItem="GJP-bt-r0o" firstAttribute="leading" secondItem="thZ-n8-7VU" secondAttribute="leading" id="RLJ-oh-Hgk"/>
+                            <constraint firstItem="GJP-bt-r0o" firstAttribute="trailing" secondItem="thZ-n8-7VU" secondAttribute="trailing" id="Sih-4c-CS3"/>
+                            <constraint firstItem="GJP-bt-r0o" firstAttribute="bottom" secondItem="thZ-n8-7VU" secondAttribute="bottom" id="xkx-BB-B2J"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="thZ-n8-7VU"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TAz-9H-rnb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1714.4000000000001" y="173.16341829085459"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Buckle_up" width="1664" height="1646"/>

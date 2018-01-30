@@ -11,6 +11,7 @@
 		59109E35201058F400462DA9 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 59109E33201058F400462DA9 /* HockeySDKResources.bundle */; };
 		59109E36201058F400462DA9 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59109E34201058F400462DA9 /* HockeySDK.framework */; };
 		59109E3820105D9C00462DA9 /* BuckleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59109E3720105D9C00462DA9 /* BuckleViewController.swift */; };
+		597DD33E201F057C00893BD1 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597DD33D201F057C00893BD1 /* NavigationViewController.swift */; };
 		59E63FB3200E058D00C5AADC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E63FB2200E058D00C5AADC /* AppDelegate.swift */; };
 		59E63FB5200E058D00C5AADC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E63FB4200E058D00C5AADC /* ViewController.swift */; };
 		59E63FB8200E058D00C5AADC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59E63FB6200E058D00C5AADC /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 		59109E33201058F400462DA9 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
 		59109E34201058F400462DA9 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
 		59109E3720105D9C00462DA9 /* BuckleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuckleViewController.swift; sourceTree = "<group>"; };
+		597DD33D201F057C00893BD1 /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		59E63FAF200E058D00C5AADC /* Pear Insurance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pear Insurance.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		59E63FB2200E058D00C5AADC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		59E63FB4200E058D00C5AADC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				59E63FBB200E058D00C5AADC /* LaunchScreen.storyboard */,
 				59E63FBE200E058D00C5AADC /* Info.plist */,
 				59109E3720105D9C00462DA9 /* BuckleViewController.swift */,
+				597DD33D201F057C00893BD1 /* NavigationViewController.swift */,
 			);
 			path = "Pear Insurance";
 			sourceTree = "<group>";
@@ -197,7 +200,9 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlacePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -242,13 +247,37 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Pear Insurance/Pods-Pear Insurance-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSPolly/AWSPolly.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/MapboxCoreNavigation/MapboxCoreNavigation.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxDirections.swift/MapboxDirections.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxMobileEvents/MapboxMobileEvents.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxNavigation/MapboxNavigation.framework",
+				"${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Solar/Solar.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/Turf/Turf.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSPolly.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxCoreNavigation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxDirections.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMobileEvents.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxNavigation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Polyline.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Solar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Turf.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -262,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				597DD33E201F057C00893BD1 /* NavigationViewController.swift in Sources */,
 				59109E3820105D9C00462DA9 /* BuckleViewController.swift in Sources */,
 				59E63FB5200E058D00C5AADC /* ViewController.swift in Sources */,
 				59E63FB3200E058D00C5AADC /* AppDelegate.swift in Sources */,

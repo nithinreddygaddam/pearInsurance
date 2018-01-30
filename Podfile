@@ -6,4 +6,5 @@ target 'Pear Insurance' do
     pod 'GoogleMaps'
     pod 'SwiftyJSON'
     pod 'Alamofire'
+    pod 'MapboxNavigation', '~> 0.13'
 end
